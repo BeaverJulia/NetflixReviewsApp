@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using NetflixReviewsApp.core.Credentials;
+using NetflixReviewsApp.core.Services;
 using Newtonsoft.Json;
 
 namespace NetflixReviewsApp.api.Installers
@@ -20,9 +21,9 @@ namespace NetflixReviewsApp.api.Installers
                 openWrksCredentials = JsonConvert.DeserializeObject<OpenWrksCredentials>(json);
             }
 
-
             services.AddSingleton(openWrksCredentials);
-
+            services.AddScoped<IOpenWorksApiService, OpenWorksApiService>();
+            services.AddScoped<IReviewsService, ReviewsService>();
 
             services.AddSwaggerGen(x =>
             {
