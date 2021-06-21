@@ -12,6 +12,7 @@ namespace NetflixReviewsApp.data.Entities
         public string ShowId { get; set; }
         public int Stars { get; set; }
         public string Description { get; set; }
-      
+        public string Nickname { get; set; }
+
     }
 }

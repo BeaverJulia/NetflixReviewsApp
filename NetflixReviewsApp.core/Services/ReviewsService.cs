@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -33,7 +34,9 @@ namespace NetflixReviewsApp.core.Services
                     new List<string> {response.ErrorMessage});
 
             var entity = _mapper.Map<ReviewEntity>(review);
+            entity.Id = Guid.NewGuid().ToString();
             await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
             return new AddReviewResponse(true, new List<ValidationResult>(),
                 new List<string>());
         }
@@ -42,8 +45,8 @@ namespace NetflixReviewsApp.core.Services
         {
             var response = await _openWorksApiService.GetShows();
             if (response.StatusCode == HttpStatusCode.NotFound) return null;
-            var shows = JsonConvert.DeserializeObject<List<Show>>(response.Content);
-            var showsWithReviews = _mapper.Map<List<ShowWithReview>>(shows);
+            var shows = JsonConvert.DeserializeObject<Shows>(response.Content.ToString());
+            var showsWithReviews = _mapper.Map<List<ShowWithReview>>(shows.Data);
 
             var reviewEntities = _context.Reviews.ToList();
             foreach (var show in showsWithReviews)

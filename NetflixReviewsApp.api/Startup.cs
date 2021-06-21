@@ -19,17 +19,19 @@ namespace NetflixReviewsApp.api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+         
             services.InstallServicesInAssembly(Configuration);
             services.AddSwaggerGen();
+           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-                app.UseExceptionHandler("/error");
+                app.UseDeveloperExceptionPage();
             else
-                app.UseExceptionHandler("/error");
+                app.UseHsts();
+
 
             var swaggerOptions = new SwaggerOptions();
 
@@ -37,7 +39,7 @@ namespace NetflixReviewsApp.api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -49,11 +51,7 @@ namespace NetflixReviewsApp.api
             });
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            app.UseCors(builder =>
-                builder
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials());
+         
         }
     }
 }

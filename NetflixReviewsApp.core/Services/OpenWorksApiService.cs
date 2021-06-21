@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using NetflixReviewsApp.core.Credentials;
 using NetflixReviewsApp.core.OpenWrksApiSettings;
 using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace NetflixReviewsApp.core.Services
 {
@@ -26,22 +31,29 @@ namespace NetflixReviewsApp.core.Services
         {
             try
             {
-                var _client = new RestClient(_openWrksCredentials.Url) {Timeout = -1};
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+                using (var httpClient = new HttpClient())
+                {
+                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), _openWrksCredentials.Url))
+                    {
+                        var credentials = string.Format("{0}:{1}", _openWrksCredentials.ClientId, _openWrksCredentials.ClientSecret);
+                        var headerValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(credentials));
+                        request.Headers.TryAddWithoutValidation("Authorization", "Basic YXBwbGljYW50OmcqOGdkdzI0WFg0NWdzYXdmRERjc3phQGU=");
 
-                request.AddHeader("Cookie",
-                    "x-ms-gateway-slice=estsfd; stsservicecookie=estsfd; fpc=AvsjvgTGW7NHgRCSwHZr4tXPl6bbAQAAALmKadcOAAAA");
-                request.AddParameter("grant_type", _openWrksCredentials.GrantType);
-                request.AddParameter("client_id", _openWrksCredentials.ClientId);
-                request.AddParameter("client_secret", _openWrksCredentials.ClientSecret);
-                request.AddParameter("scope", _openWrksCredentials.Scope);
-                var response = await _client.ExecuteAsync(request);
-                var result = JsonConvert.DeserializeObject<AccessTokenResponse>(response.Content);
+                        var contentList = new List<string>();
+                        contentList.Add($"grant_type={Uri.EscapeDataString(_openWrksCredentials.GrantType)}");
+                        contentList.Add($"scope={Uri.EscapeDataString(_openWrksCredentials.Scope)}");
+                        request.Content = new StringContent(string.Join("&", contentList));
+                        request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded");
 
-                var token = $"Bearer {result.access_token}";
-                _cache.Set("Token", token);
-                return response.Content;
+                        var response = await httpClient.SendAsync(request);
+                        var result = JsonConvert.DeserializeObject<AccessTokenResponse>(await response.Content.ReadAsStringAsync());
+
+                        var token = $"Bearer {result.access_token}";
+                        _cache.Set("Token", token);
+                        return response.Content.ToString();
+                    }
+                }
+               
             }
             catch (Exception exception)
             {
@@ -69,7 +81,7 @@ namespace NetflixReviewsApp.core.Services
 
         public async Task<IRestResponse> GetShow(string id)
         {
-            var _client = new RestClient(ApiRoutes.Shows + "/id") {Timeout = -1};
+            var _client = new RestClient(ApiRoutes.Shows + "/"+id) {Timeout = -1};
             var request = new RestRequest(Method.GET);
             try
             {

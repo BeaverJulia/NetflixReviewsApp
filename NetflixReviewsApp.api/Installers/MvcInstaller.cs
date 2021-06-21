@@ -24,7 +24,8 @@ namespace NetflixReviewsApp.api.Installers
             services.AddSingleton(openWrksCredentials);
             services.AddScoped<IOpenWorksApiService, OpenWorksApiService>();
             services.AddScoped<IReviewsService, ReviewsService>();
-
+            services.AddMemoryCache();
+            services.AddControllers();
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new OpenApiInfo {Title = "NetflixReviewsApi", Version = "v1"});

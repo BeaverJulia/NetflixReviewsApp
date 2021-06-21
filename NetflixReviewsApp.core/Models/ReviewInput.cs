@@ -12,5 +12,7 @@ namespace NetflixReviewsApp.core.Models
         public string Description { get; set; }
         [Required] 
         public string ShowId { get; set; }
+        [Required]
+        public string Nickname { get; set; }
     }
 }
