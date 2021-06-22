@@ -14,14 +14,15 @@ using RestSharp;
 
 namespace NetflixAppCore.Tests
 {
-    public class Tests
+    //TODO Add Integration tests.
+    public class ReviewServiceTests
     {
         private readonly DataContext _context;
         public Mock<IOpenWrksApiService> OpenWrksApiService;
         private IReviewsService _sut;
         private static IMapper _mapper;
 
-        public Tests()
+        public ReviewServiceTests()
         {
             var contextOptions = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
