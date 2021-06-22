@@ -64,6 +64,8 @@ namespace NetflixReviewsApp.core.Services
 
         public async Task<IRestResponse> GetShows()
         {
+            //TODO Get all the shows from API
+            //This request currently gets only 20 results
             var _client = new RestClient(ApiRoutes.Shows) {Timeout = -1};
             var request = new RestRequest(Method.GET);
             try
@@ -75,6 +77,7 @@ namespace NetflixReviewsApp.core.Services
             }
             catch (Exception e)
             {
+                //TODO Global Error handling
                 return Response;
             }
         }

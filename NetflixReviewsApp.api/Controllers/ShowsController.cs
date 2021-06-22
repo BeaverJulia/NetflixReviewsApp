@@ -6,6 +6,7 @@ using NetflixReviewsApp.core.Services;
 
 namespace NetflixReviewsApp.api.Controllers
 {
+    //TODO Add pagination
     [ApiController]
     public class ShowsController : Controller
     {
