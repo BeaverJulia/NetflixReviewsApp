@@ -5,7 +5,7 @@ using RestSharp;
 
 namespace NetflixReviewsApp.core.Services
 {
-    public interface IOpenWorksApiService
+    public interface IOpenWrksApiService
     {
         Task<IRestResponse> GetShow(string id);
         Task<IRestResponse> GetShows();

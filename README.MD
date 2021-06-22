@@ -1,5 +1,5 @@
-# NetflixReviewsApp API 
-:clapper: :speech_balloon:
+# NetflixReviewsApp API :clapper: :speech_balloon:
+
 NetflixReviewsApp is a WebApi to add reviews to shows, provided by 
 https://netflix-app.openwrks.com
 

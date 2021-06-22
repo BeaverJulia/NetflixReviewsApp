@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Moq;
 using NetflixReviewsApp.core.Models;
 using NetflixReviewsApp.core.Models.OpenWrksModels;
 using NetflixReviewsApp.data;
@@ -15,20 +16,22 @@ namespace NetflixReviewsApp.core.Services
 {
     public class ReviewsService : IReviewsService
     {
-        private readonly IOpenWorksApiService _openWorksApiService;
+        private readonly IOpenWrksApiService _openWrksApiService;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+       
+     
 
-        public ReviewsService(IOpenWorksApiService openWorksApiService, DataContext context, IMapper mapper)
+        public ReviewsService(IOpenWrksApiService openWrksApiService, DataContext context, IMapper mapper)
         {
-            _openWorksApiService = openWorksApiService;
+            _openWrksApiService = openWrksApiService;
             _context = context;
             _mapper = mapper;
         }
 
         public async Task<AddReviewResponse> AddReview(ReviewInput review)
         {
-            var response = await _openWorksApiService.GetShow(review.ShowId);
+            var response = await _openWrksApiService.GetShow(review.ShowId);
             if (response.StatusCode == HttpStatusCode.NotFound)
                 return new AddReviewResponse(false, new List<ValidationResult>(),
                     new List<string> {response.ErrorMessage});
@@ -43,7 +46,7 @@ namespace NetflixReviewsApp.core.Services
 
         public async Task<List<ShowWithReview>> GetShowsWithReviews()
         {
-            var response = await _openWorksApiService.GetShows();
+            var response = await _openWrksApiService.GetShows();
             if (response.StatusCode == HttpStatusCode.NotFound) return null;
             var shows = JsonConvert.DeserializeObject<Shows>(response.Content.ToString());
             var showsWithReviews = _mapper.Map<List<ShowWithReview>>(shows.Data);

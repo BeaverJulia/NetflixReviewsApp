@@ -22,7 +22,7 @@ namespace NetflixReviewsApp.api.Installers
             }
 
             services.AddSingleton(openWrksCredentials);
-            services.AddScoped<IOpenWorksApiService, OpenWorksApiService>();
+            services.AddScoped<IOpenWrksApiService, OpenWrksApiService>();
             services.AddScoped<IReviewsService, ReviewsService>();
             services.AddMemoryCache();
             services.AddControllers();

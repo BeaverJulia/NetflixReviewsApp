@@ -13,14 +13,14 @@ using RestSharp.Authenticators;
 
 namespace NetflixReviewsApp.core.Services
 {
-    public class OpenWorksApiService : IOpenWorksApiService
+    public class OpenWrksApiService : IOpenWrksApiService
     {
         private readonly IMemoryCache _cache;
         private readonly OpenWrksCredentials _openWrksCredentials;
         public string Token;
         public IRestResponse Response;
 
-        public OpenWorksApiService(OpenWrksCredentials openWrksCredentials, IMemoryCache memoryCache)
+        public OpenWrksApiService(OpenWrksCredentials openWrksCredentials, IMemoryCache memoryCache)
         {
             _openWrksCredentials = openWrksCredentials;
             _cache = memoryCache;
