@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NetflixReviewsApp.api.Options
+﻿namespace NetflixReviewsApp.api.Options
 {
     public class SwaggerOptions
     {

@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
+using NetflixReviewsApp.core.Contracts;
 using NetflixReviewsApp.core.Models;
 using NetflixReviewsApp.core.Models.OpenWrksModels;
 using NetflixReviewsApp.data.Entities;
@@ -13,7 +13,7 @@ namespace NetflixReviewsApp.core
             CreateMap<ReviewInput, ReviewEntity>();
             CreateMap<ReviewEntity, ReviewOutput>();
             CreateMap<Show, ShowWithReview>();
-
+            CreateMap<PaginationQuery, PaginationFilter>();
         }
     }
 }

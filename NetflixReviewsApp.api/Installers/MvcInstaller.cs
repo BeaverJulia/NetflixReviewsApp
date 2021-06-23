@@ -24,6 +24,7 @@ namespace NetflixReviewsApp.api.Installers
             services.AddSingleton(openWrksCredentials);
             services.AddScoped<IOpenWrksApiService, OpenWrksApiService>();
             services.AddScoped<IReviewsService, ReviewsService>();
+            services.AddScoped<IUriService, UriService>();
             services.AddMemoryCache();
             services.AddControllers();
             services.AddSwaggerGen(x =>

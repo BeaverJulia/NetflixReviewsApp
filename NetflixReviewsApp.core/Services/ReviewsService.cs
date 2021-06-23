@@ -44,9 +44,9 @@ namespace NetflixReviewsApp.core.Services
                 new List<string>());
         }
 
-        public async Task<List<ShowWithReview>> GetShowsWithReviews()
+        public async Task<List<ShowWithReview>> GetShowsWithReviews(PaginationFilter pagination)
         {
-            var response = await _openWrksApiService.GetShows();
+            var response = await _openWrksApiService.GetShows( pagination);
             if (response.StatusCode == HttpStatusCode.NotFound) return null;
             var shows = JsonConvert.DeserializeObject<Shows>(response.Content.ToString());
             var showsWithReviews = _mapper.Map<List<ShowWithReview>>(shows.Data);
@@ -63,6 +63,7 @@ namespace NetflixReviewsApp.core.Services
                 }
 
             return showsWithReviews;
+            
         }
     }
 }
