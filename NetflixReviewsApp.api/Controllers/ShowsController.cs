@@ -17,7 +17,7 @@ namespace NetflixReviewsApp.api.Controllers
             _reviewsService = reviewsService;
         }
 
-        [HttpPost("v1/shows")]
+        [HttpPost("v1/review")]
         public async Task<ActionResult> AddReview([FromBody] ReviewInput input)
         {
             var output = await _reviewsService.AddReview(input);

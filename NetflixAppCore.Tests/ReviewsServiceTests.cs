@@ -62,7 +62,7 @@ namespace NetflixAppCore.Tests
             //Act
             OpenWrksApiService.Setup(x => x.GetShow(It.IsAny<string>())).ReturnsAsync(response);
             var act = _sut.AddReview(review);
-
+            //Assert
             Assert.IsFalse(act.Result.Success);
         }
 
@@ -84,7 +84,7 @@ namespace NetflixAppCore.Tests
             //Act
             OpenWrksApiService.Setup(x => x.GetShow(It.IsAny<string>())).ReturnsAsync(response);
             var act = _sut.AddReview(review);
-
+            //Assert
             Assert.IsTrue(act.Result.Success);
         }
 
@@ -100,7 +100,7 @@ namespace NetflixAppCore.Tests
             //Act
             OpenWrksApiService.Setup(x => x.GetShows()).ReturnsAsync(response);
             var act = _sut.GetShowsWithReviews();
-
+            //Assert
             Assert.IsNull(act.Result);
         }
 
@@ -137,7 +137,7 @@ namespace NetflixAppCore.Tests
             //Act
             OpenWrksApiService.Setup(x => x.GetShows()).ReturnsAsync(response);
             var act = _sut.GetShowsWithReviews();
-
+            //Assert
             Assert.IsNotEmpty(act.Result);
             Assert.IsInstanceOf<List<ShowWithReview>>(act.Result);
         }
